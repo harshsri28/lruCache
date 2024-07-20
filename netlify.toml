@@ -1,8 +1,0 @@
-[build]
-  functions = "go"  # Ensure this points to the correct directory with your functions
-
-[[redirects]]
-  from = "/api/*"
-  to = "/api/${1}"
-  status = 200
-  force = true
