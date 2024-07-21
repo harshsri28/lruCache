@@ -5,7 +5,6 @@ import (
     "github.com/harshsri28/apica/module"
     "net/http"
     "time"
-    "log"
 )
 
 // Cache handler instance
