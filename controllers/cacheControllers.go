@@ -5,6 +5,7 @@ import (
     "github.com/harshsri28/apica/module"
     "net/http"
     "time"
+    "log"
 )
 
 // Cache handler instance
@@ -14,6 +15,13 @@ var lruCache *cache.LRUCache
 func InitializeCache(cacheInstance *cache.LRUCache) {
     lruCache = cacheInstance
     lruCache.StartExpirationRoutine()
+}
+
+
+// return all the cache list
+func GetAllCache(c *gin.Context) {
+    allItems := lruCache.GetAll()
+    c.JSON(http.StatusOK, gin.H{"items": allItems})
 }
 
 // GetCache retrieves an item from the cache
@@ -28,12 +36,13 @@ func GetCache(c *gin.Context) {
 
 // SetCache adds or updates an item in the cache
 func SetCache(c *gin.Context) {
+    log.Println("SetCache called")
     var requestBody struct {
         Key       string `json:"key" binding:"required"`
         Value     string `json:"value" binding:"required"`
         Duration  int    `json:"duration" binding:"required"`
     }
-
+    log.Println("SetCache aaya idhar")
     if err := c.ShouldBindJSON(&requestBody); err != nil {
         c.JSON(http.StatusBadRequest, gin.H{"error": "invalid request body"})
         return
