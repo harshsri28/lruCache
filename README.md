@@ -5,7 +5,7 @@
 **Clone the repository:**
 
 ```sh
-  https://github.com/harshsri28/lruCache-Backend
+  git clone https://github.com/harshsri28/lruCache-Backend.git
 ```
 
 **Setup The Environment**
