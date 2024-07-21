@@ -4,6 +4,8 @@ import (
     "container/list"
     "sync"
     "time"
+
+    "github.com/harshsri28/apica/helper"
 )
 
 type CacheItem struct {
@@ -95,6 +97,7 @@ func (cache *LRUCache) StartExpirationRoutine() {
             cache.mutex.Lock()
             for key, element := range cache.items {
                 if time.Now().After(element.Value.(*CacheItem).Expiration) {
+                    websocket.NotifyClients("expired", key)
                     cache.order.Remove(element)
                     delete(cache.items, key)
                 }

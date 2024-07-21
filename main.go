@@ -5,11 +5,13 @@ import (
     "os"
     "strconv"
     "time"
-    "github.com/joho/godotenv"
+
+    "github.com/gin-contrib/cors"
     "github.com/gin-gonic/gin"
-    "github.com/gin-contrib/cors" 
+    "github.com/joho/godotenv"
     "github.com/harshsri28/apica/module"
     "github.com/harshsri28/apica/routes"
+    "github.com/harshsri28/apica/helper"
 )
 
 func main() {
@@ -37,7 +39,7 @@ func main() {
     router := gin.New()
     router.Use(gin.Logger())
 
-    // Configure CORS
+    // Configured CORS
     router.Use(cors.New(cors.Config{
         AllowOrigins:     []string{"http://localhost:3000"},
         AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
@@ -47,13 +49,17 @@ func main() {
         MaxAge:           12 * time.Hour,
     }))
 
-    // Log incoming requests
+    // Logging incoming requests
     router.Use(func(c *gin.Context) {
         log.Printf("Request: %s %s", c.Request.Method, c.Request.URL)
         c.Next()
     })
 
     routes.InitCacheRoutes(router, lruCache)
+
+    // Added WebSocket routes
+    router.GET("/ws", websocket.HandleConnections)
+    go websocket.HandleMessages()
 
     router.Run(":" + port)
 }
