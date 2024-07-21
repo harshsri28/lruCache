@@ -3,6 +3,7 @@ package main
 import (
     "log"
     "os"
+    "strconv"
     "time"
     "github.com/joho/godotenv"
     "github.com/gin-gonic/gin"
@@ -22,7 +23,17 @@ func main() {
         log.Fatal("PORT environment variable not set")
     }
 
-    lruCache := cache.NewLRUCache(10)
+    cacheCapacityStr := os.Getenv("CACHE_CAPACITY")
+    if cacheCapacityStr == "" {
+        log.Fatal("CACHE_CAPACITY environment variable not set")
+    }
+
+    cacheCapacity, err := strconv.Atoi(cacheCapacityStr)
+    if err != nil {
+        log.Fatalf("Invalid CACHE_CAPACITY value: %v", err)
+    }
+
+    lruCache := cache.NewLRUCache(cacheCapacity)
     router := gin.New()
     router.Use(gin.Logger())
 
