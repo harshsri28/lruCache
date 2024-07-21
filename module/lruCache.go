@@ -107,7 +107,6 @@ func (cache *LRUCache) StartExpirationRoutine() {
     }()
 }
 
-// New method to get all cache items
 func (cache *LRUCache) GetAll() map[string]string {
     cache.mutex.Lock()
     defer cache.mutex.Unlock()

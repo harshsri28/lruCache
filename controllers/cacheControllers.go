@@ -7,23 +7,19 @@ import (
     "time"
 )
 
-// Cache handler instance
 var lruCache *cache.LRUCache
 
-// InitializeCache sets up the cache and the expiration routine
 func InitializeCache(cacheInstance *cache.LRUCache) {
     lruCache = cacheInstance
     lruCache.StartExpirationRoutine()
 }
 
 
-// return all the cache list
 func GetAllCache(c *gin.Context) {
     allItems := lruCache.GetAll()
     c.JSON(http.StatusOK, gin.H{"items": allItems})
 }
 
-// GetCache retrieves an item from the cache
 func GetCache(c *gin.Context) {
     key := c.Param("key")
     if value, found := lruCache.Get(key); found {
@@ -33,7 +29,6 @@ func GetCache(c *gin.Context) {
     }
 }
 
-// SetCache adds or updates an item in the cache
 func SetCache(c *gin.Context) {
     var requestBody struct {
         Key       string `json:"key" binding:"required"`
@@ -50,7 +45,6 @@ func SetCache(c *gin.Context) {
     c.JSON(http.StatusOK, gin.H{"status": "success"})
 }
 
-// DeleteCache removes an item from the cache
 func DeleteCache(c *gin.Context) {
     key := c.Param("key")
     lruCache.Delete(key)
