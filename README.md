@@ -104,3 +104,10 @@ This Project facilates LRU(Least Recently Functionality) and had four api expose
 - helper
   - websocket.go
 - main.go
+
+## WebSockets
+
+- **HandleConnections:** Upgrades HTTP requests to WebSocket connections and manages connected clients.
+- **HandleMessages:** Listens for messages on the broadcast channel and sends them to all connected clients.
+- **NotifyClients:** Sends notifications to all clients when specific events, like cache item expirations, occur.
+- In the main function, the WebSocket route is set up with router.GET("/ws", websocket.HandleConnections) and the message handling goroutine is started with go websocket.HandleMessages().
