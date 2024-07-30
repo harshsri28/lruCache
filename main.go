@@ -17,17 +17,17 @@ import (
 func main() {
     err := godotenv.Load()
     if err != nil {
-        log.Fatalf("Error loading .env file: %v", err)
+        log.Println("Warning: .env file not found, using environment variables directly.")
     }
 
     port := os.Getenv("PORT")
     if port == "" {
-        log.Fatal("PORT environment variable not set")
+        port = "3001"
     }
 
     cacheCapacityStr := os.Getenv("CACHE_CAPACITY")
     if cacheCapacityStr == "" {
-        log.Fatal("CACHE_CAPACITY environment variable not set")
+        cacheCapacityStr = "10"
     }
 
     cacheCapacity, err := strconv.Atoi(cacheCapacityStr)
