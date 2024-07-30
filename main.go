@@ -41,7 +41,7 @@ func main() {
 
     // Configured CORS
     router.Use(cors.New(cors.Config{
-        AllowOrigins:     []string{"http://localhost:3000","https://lrucache-backend.onrender.com"},
+        AllowOrigins:     []string{"http://localhost:3000","https://lrucache-backend.onrender.com", "https://lru-cache-react.netlify.app"},
         AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
         AllowHeaders:     []string{"Origin", "Content-Type"},
         ExposeHeaders:    []string{"Content-Length"},
