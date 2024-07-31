@@ -12,6 +12,7 @@ type CacheItem struct {
     Key        string
     Value      string
     Expiration time.Time
+    TimeExpiration time.Time
 }
 
 type LRUCache struct {
@@ -49,6 +50,7 @@ func (cache *LRUCache) Set(key string, value string, duration time.Duration) {
         Key:        key,
         Value:      value,
         Expiration: time.Now().Add(duration),
+        TimeExpiration: duration,
     }
     element := cache.order.PushFront(item)
     cache.items[key] = element
@@ -65,6 +67,7 @@ func (cache *LRUCache) Get(key string) (string, bool) {
             delete(cache.items, key)
             return "", false
         }
+        element.Expiration = element.TimeExpiration
         cache.order.MoveToFront(element)
         return item.Value, true
     }
